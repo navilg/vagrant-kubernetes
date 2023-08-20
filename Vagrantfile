@@ -11,7 +11,7 @@ NUM_WORKER_NODES = settings["nodes"]["workers"]["count"]
 
 Vagrant.configure("2") do |config|
   config.vm.provision "shell", env: { "IP_NW" => IP_NW, "IP_START" => IP_START, "NUM_WORKER_NODES" => NUM_WORKER_NODES }, inline: <<-SHELL
-      apt-get update -y
+      # apt-get update -y
       echo "$IP_NW$((IP_START)) master-node" >> /etc/hosts
       for i in `seq 1 ${NUM_WORKER_NODES}`; do
         echo "$IP_NW$((IP_START+i)) worker-node0${i}" >> /etc/hosts
@@ -28,6 +28,11 @@ Vagrant.configure("2") do |config|
   config.vm.define "master" do |master|
     master.vm.hostname = "master-node"
     master.vm.network "private_network", ip: settings["network"]["control_ip"]
+    if settings["forwarded_ports"]
+      settings["forwarded_ports"].each do |forwarded_port|
+        master.vm.network "forwarded_port", guest: forwarded_port["guest_port"], host: forwarded_port["host_port"], id: forwarded_port["id"]
+      end
+    end
     if settings["shared_folders"]
       settings["shared_folders"].each do |shared_folder|
         master.vm.synced_folder shared_folder["host_path"], shared_folder["vm_path"]

@@ -29,6 +29,10 @@ nodes:
 # shared_folders:
 #   - host_path: ../images
 #     vm_path: /vagrant/images
+forwarded_ports:
+  - guest_port: 22
+    host_port: 2220
+    id: ssh
 software:
   box: bento/ubuntu-22.04
   calico: 3.26.0
