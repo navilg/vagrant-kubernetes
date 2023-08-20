@@ -1,6 +1,9 @@
 ---
 # cluster_name is used to group the nodes in a folder within VirtualBox:
 cluster_name: Kubernetes Cluster
+runtime:
+  name: containerd # or crio
+  version: 1.6.22-1 # Leave blank for crio
 # Uncomment to set environment variables for services such as crio and kubelet.
 # For example, configure the cluster to pull images via a proxy.
 # environment: |
