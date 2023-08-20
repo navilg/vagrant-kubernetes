@@ -38,3 +38,5 @@ software:
   kubernetes: 1.27.1-00
   os: xUbuntu_22.04
   helm: v3.10.2
+  ingress_nginx: 4.7.1
+  csi_driver_nfs: v4.2.0

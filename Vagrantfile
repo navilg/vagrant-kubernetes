@@ -94,6 +94,13 @@ Vagrant.configure("2") do |config|
       if i == NUM_WORKER_NODES and settings["software"]["dashboard"] and settings["software"]["dashboard"] != ""
         node.vm.provision "shell", path: "scripts/dashboard.sh"
       end
+      if i == NUM_WORKER_NODES
+        node.vm.provision "shell", env: {
+          "INGRESS_NGINX_VERSION" => settings["software"]["ingress_nginx"],
+          "NFS_DRIVER_VERSION" => settings["software"]["csi_driver_nfs"]
+        }, 
+        path: "scripts/post-provision.sh"
+      end
     end
 
   end
