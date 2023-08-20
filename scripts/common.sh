@@ -91,6 +91,7 @@ if [ $RUNTIME == "containerd" ]; then
 	sudo mkdir -p /etc/containerd
 	containerd config default | sudo tee /etc/containerd/config.toml
 	sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
+	sed -i 's|config_path = ""|config_path = "/etc/containerd/certs.d"|g' /etc/containerd/config.toml
 	
 	sudo systemctl restart containerd
 	sudo systemctl daemon-reload
