@@ -87,7 +87,7 @@ Vagrant.configure("2") do |config|
           "ENVIRONMENT" => settings["environment"],
           "KUBERNETES_VERSION" => settings["software"]["kubernetes"],
           "OS" => settings["software"]["os"],
-          "RUNTIME" => settings["runtime"],
+          "RUNTIME" => settings["runtime"]["name"],
           "RUNTIME_VERSION" => settings["runtime"]["version"],
           "HELM_VERSION" => settings["software"]["helm"]
         },

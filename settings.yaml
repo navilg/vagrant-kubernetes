@@ -3,7 +3,7 @@
 cluster_name: Kubernetes Cluster
 runtime:
   name: containerd # or crio
-  version: 1.6.22-1 # Leave blank for crio
+  version: 1.6.22-1 # It will be ignored for crio
 # Uncomment to set environment variables for services such as crio and kubelet.
 # For example, configure the cluster to pull images via a proxy.
 # environment: |

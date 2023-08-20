@@ -45,7 +45,7 @@ EOF
 
 sudo sysctl --system
 
-if [ $RUNTIME == "crio" ]; then
+if [ "$RUNTIME" == "crio" ]; then
 
 	cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
 deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /
@@ -69,7 +69,7 @@ EOF
 	echo "CRI runtime installed successfully"
 fi
 
-if [ $RUNTIME == "containerd" ]; then
+if [ "$RUNTIME" == "containerd" ]; then
 
 	############## CONTAINERD ##################
 	sudo install -m 0755 -d /etc/apt/keyrings
