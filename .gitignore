@@ -34,3 +34,7 @@ Temporary Items
 
 # Node volumes/data
 synced_volumes/
+
+aws-credential
+
+velero-

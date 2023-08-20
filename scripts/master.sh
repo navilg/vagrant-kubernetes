@@ -36,9 +36,12 @@ kubeadm token create --print-join-command > $config_path/join.sh
 
 # Install Calico Network Plugin
 
-curl https://raw.githubusercontent.com/projectcalico/calico/v${CALICO_VERSION}/manifests/calico.yaml -O
+# curl https://raw.githubusercontent.com/projectcalico/calico/v${CALICO_VERSION}/manifests/calico.yaml -O
 
-kubectl apply -f calico.yaml
+# kubectl apply -f calico.yaml
+
+helm repo add projectcalico https://docs.tigera.io/calico/charts
+helm install calico projectcalico/tigera-operator --version v${CALICO_VERSION} --namespace tigera-operator --create-namespace
 
 sudo -i -u vagrant bash << EOF
 whoami
@@ -51,3 +54,16 @@ EOF
 
 kubectl apply -f https://raw.githubusercontent.com/techiescamp/kubeadm-scripts/main/manifests/metrics-server.yaml
 
+# Setup NFS server
+sudo apt install nfs-kernel-server -y
+mkdir -p /var/nfs/k8s_pvs
+sudo chown nobody:nogroup /var/nfs/k8s_pvs
+sudo chmod 777 /var/nfs/k8s_pvs
+echo '/var/nfs/k8s_pvs worker-node0*(rw,sync,no_root_squash,no_subtree_check) master-node(rw,sync,no_root_squash,no_subtree_check)' | sudo tee -a /etc/exports
+sudo systemctl restart nfs-kernel-server
+
+# Mount NFS on client
+sleep 3
+mkdir /home/vagrant/k8s_pvs
+echo 'master-node:/var/nfs/k8s_pvs /home/vagrant/k8s_pvs/ nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0' | sudo tee -a /etc/fstab
+sudo mount /home/vagrant/k8s_pvs/
