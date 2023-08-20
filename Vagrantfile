@@ -28,11 +28,8 @@ Vagrant.configure("2") do |config|
   config.vm.define "master" do |master|
     master.vm.hostname = "master-node"
     master.vm.network "private_network", ip: settings["network"]["control_ip"]
-    if settings["forwarded_ports"]
-      settings["forwarded_ports"].each do |forwarded_port|
-        master.vm.network "forwarded_port", guest: forwarded_port["guest_port"], host: forwarded_port["host_port"], id: forwarded_port["id"]
-      end
-    end
+    master.vm.network "forwarded_port", guest: 22, host: 2220, id: "ssh"
+
     if settings["shared_folders"]
       settings["shared_folders"].each do |shared_folder|
         master.vm.synced_folder shared_folder["host_path"], shared_folder["vm_path"]
