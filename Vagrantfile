@@ -46,6 +46,7 @@ Vagrant.configure("2") do |config|
         "ENVIRONMENT" => settings["environment"],
         "KUBERNETES_VERSION" => settings["software"]["kubernetes"],
         "OS" => settings["software"]["os"]
+        "HELM_VERSION" => settings["software"]["helm"]
       },
       path: "scripts/common.sh"
     master.vm.provision "shell",
