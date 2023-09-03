@@ -47,3 +47,12 @@ volumeBindingMode: WaitForFirstConsumer
 mountOptions:
   - nfsvers=4.1
 EOF
+
+kubectl wait --for=condition=Ready --label app.kubernetes.io/component=controller
+
+kubectl apply -f /home/vagrant/sample-app.yaml
+
+echo
+echo "Spinup completed."
+echo "You can access sample application on your browser at 'http://$MASTER_IP/sampleapp'"
+echo

@@ -99,9 +99,11 @@ Vagrant.configure("2") do |config|
         node.vm.provision "shell", path: "scripts/dashboard.sh"
       end
       if i == NUM_WORKER_NODES
+        node.vm.provision "file", source: "./sample-app.yaml", destination: "sample-app.yaml"
         node.vm.provision "shell", env: {
           "INGRESS_NGINX_VERSION" => settings["software"]["ingress_nginx"],
-          "NFS_DRIVER_VERSION" => settings["software"]["csi_driver_nfs"]
+          "NFS_DRIVER_VERSION" => settings["software"]["csi_driver_nfs"],
+          "MASTER_IP" => settings["network"]["control_ip"]
         }, 
         path: "scripts/post-provision.sh"
       end

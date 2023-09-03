@@ -67,3 +67,19 @@ sleep 3
 mkdir /home/vagrant/k8s_pvs
 echo 'master-node:/var/nfs/k8s_pvs /home/vagrant/k8s_pvs/ nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0' | sudo tee -a /etc/fstab
 sudo mount /home/vagrant/k8s_pvs/
+
+# Setup Loadbalancer on master noode which will reverse proxy traffic to ingress controller.
+
+sudo apt install nginx -y
+sudo systemctl enable nginx
+cat > /etc/nginx/conf.d/loadbalancer.conf <<EOF
+server {
+  listen 80; 
+
+  location / {
+    proxy_pass http://localhost:30080;
+  }
+}
+EOF
+rm -f /etc/nginx/sites-enabled/default
+sudo nginx -s reload
