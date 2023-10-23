@@ -108,6 +108,5 @@ Vagrant.configure("2") do |config|
         path: "scripts/post-provision.sh"
       end
     end
-
   end
 end 
