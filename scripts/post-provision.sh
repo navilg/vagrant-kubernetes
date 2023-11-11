@@ -6,6 +6,7 @@ export KUBECONFIG=/vagrant/configs/config
 
 # Install Ingress Nginx
 
+echo "Installing Nginx Ingress controller"
 cat <<EOF > custom-ingress-value.yaml
 controller:
   service:
@@ -29,8 +30,18 @@ rm -f custom-ingress-value.yaml
 
 # Install nfs-provisioner
 
+echo "Installing CSI Driver for NFS"
 helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
-helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version $NFS_DRIVER_VERSION
+helm upgrade --install csi-driver-nfs csi-driver-nfs/csi-driver-nfs \
+  --namespace kube-system \
+  --set externalSnapshotter.enabled=true \
+  --version $NFS_DRIVER_VERSION
+
+kubectl -n kube-system wait --for=condition=Ready pods -l app.kubernetes.io/instance=csi-driver-nfs
+
+# Deploy storageclasss and volumesnapshotclass
+
+echo "Deploying storage class"
 cat <<EOF | kubectl apply -f -
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -48,7 +59,20 @@ mountOptions:
   - nfsvers=4.1
 EOF
 
-kubectl wait --for=condition=Ready --label app.kubernetes.io/component=controller
+echo "Deploying volume snapshot class"
+cat <<EOF | kubectl apply -f -
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: nfs-csi
+  # labels:
+  #   velero.io/csi-volumesnapshot-class: "true"
+driver: nfs.csi.k8s.io
+parameters:
+  server: master-node
+  share: /var/nfs/k8s_pvs
+deletionPolicy: Delete
+EOF
 
 kubectl apply -f /home/vagrant/sample-app.yaml
 

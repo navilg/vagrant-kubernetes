@@ -7,22 +7,14 @@ This is fork of [vagrant-kubeadm-kubernetes](https://github.com/techiescamp/vagr
 
 Current k8s version for CKA, CKAD, and CKS exam: 1.27
 
-Refer to this link for documentation: https://devopscube.com/kubernetes-cluster-vagrant/
-
-## 🚀 CKA, CKAD, CKS, or KCNA Coupon Codes
-
-If you are preparing for CKA, CKAD, CKS, or KCNA exam, **save 20%** today using code **SCRIPT20** at https://kube.promo/devops. It is a limited-time offer. Or Check out [Linux Foundation coupon](https://scriptcrunch.com/linux-foundation-coupon/) page for the latest voucher codes.
-
-For the best savings, opt for the CKA + CKS bundle (**$210 Savings)**. Use code **DCUBE20** at https://kube.promo/bundle
-
 ## Prerequisites
 
-1. Working Vagrant setup
-2. 8 Gig + RAM workstation as the Vms use 3 vCPUS and 4+ GB RAM
+1. Working Vagrant setup with VirtualBox
+2. 8 Gi+ RAM workstation as the Vms use 3 vCPUS and 4+ GB RAM
 
-## For MAC/Linux Users
+## For Linux Users
 
-The latest version of Virtualbox for Mac/Linux can cause issues.
+The latest version of Virtualbox for Linux can cause issues.
 
 Create/edit the /etc/vbox/networks.conf file and add the following to avoid any network related issues.
 <pre>* 0.0.0.0/0 ::/0</pre>
@@ -42,22 +34,21 @@ https://discuss.hashicorp.com/t/vagrant-2-2-18-osx-11-6-cannot-create-private-ne
 To provision the cluster, execute the following commands.
 
 ```shell
-git clone https://github.com/scriptcamp/vagrant-kubeadm-kubernetes.git
-cd vagrant-kubeadm-kubernetes
+git clone https://github.com/navilg/vagrant-kubernetes.git
+cd vagrant-kubernetes
 vagrant up
 ```
 ## Set Kubeconfig file variable
 
 ```shell
-cd vagrant-kubeadm-kubernetes
-cd configs
-export KUBECONFIG=$(pwd)/config
+cd vagrant-kubernetes
+export KUBECONFIG=$PWD/configs/config
 ```
 
 or you can copy the config file to .kube directory.
 
 ```shell
-cp config ~/.kube/
+cp configs/config ~/.kube/
 ```
 
 ## Install Kubernetes Dashboard
