@@ -31,3 +31,11 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Node volumes/data
+synced_volumes/
+
+aws-credential
+
+velero-
+ideas
