@@ -30,7 +30,11 @@ rm -f custom-ingress-value.yaml
 # Install nfs-provisioner
 
 helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
-helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version $NFS_DRIVER_VERSION
+helm upgrade --install csi-driver-nfs csi-driver-nfs/csi-driver-nfs \
+  --namespace kube-system \
+  --set externalSnapshotter.enabled=true \
+  --version $NFS_DRIVER_VERSION
+  
 cat <<EOF | kubectl apply -f -
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -48,7 +52,7 @@ mountOptions:
   - nfsvers=4.1
 EOF
 
-kubectl wait --for=condition=Ready --label app.kubernetes.io/component=controller
+kubectl -n kube-system wait --for=condition=Ready pods -l app.kubernetes.io/instance=csi-driver-nfs
 
 kubectl apply -f /home/vagrant/sample-app.yaml
 
