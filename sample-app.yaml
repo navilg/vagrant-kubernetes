@@ -5,6 +5,17 @@ metadata:
 
 ---
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: task-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+---
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: index-html
@@ -20,7 +31,6 @@ data:
       <p>Your kubernetes cluster has been setup successfully.</p>
     </body>
     </html>
-
 ---
 
 apiVersion: apps/v1
@@ -49,6 +59,8 @@ spec:
         volumeMounts:
         - name: index-html
           mountPath: /usr/share/nginx/html
+        - mountPath: "/usr/share/nginx/html"
+          name: task-pv-storage
       volumes:
       - name: index-html
         configMap:
@@ -56,6 +68,9 @@ spec:
           items:
             - key: index.html
               path: index.html
+      - name: task-pv-storage
+        persistentVolumeClaim:
+          claimName: task-pv-claim
 ---
 apiVersion: v1
 kind: Service
