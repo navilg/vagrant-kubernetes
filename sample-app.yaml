@@ -8,6 +8,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: nginx-logs
+  namespace: sample-app
 spec:
   accessModes:
     - ReadWriteOnce
