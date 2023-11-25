@@ -7,7 +7,8 @@ metadata:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: task-pv-claim
+  name: nginx-logs
+  namespace: sample-app
 spec:
   accessModes:
     - ReadWriteOnce
@@ -59,8 +60,8 @@ spec:
         volumeMounts:
         - name: index-html
           mountPath: /usr/share/nginx/html
-        - mountPath: "/usr/share/nginx/html"
-          name: task-pv-storage
+        - mountPath: /var/log/nginx
+          name: nginx-logs
       volumes:
       - name: index-html
         configMap:
@@ -68,9 +69,9 @@ spec:
           items:
             - key: index.html
               path: index.html
-      - name: task-pv-storage
+      - name: nginx-logs
         persistentVolumeClaim:
-          claimName: task-pv-claim
+          claimName: nginx-logs
 ---
 apiVersion: v1
 kind: Service

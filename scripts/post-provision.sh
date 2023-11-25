@@ -28,6 +28,9 @@ helm repo update
 helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace -f custom-ingress-value.yaml --version $INGRESS_NGINX_VERSION
 rm -f custom-ingress-value.yaml
 
+kubectl -n ingress-nginx wait --for=condition=Ready pods -l app.kubernetes.io/name=ingress-nginx --timeout=60s
+
+
 # Install nfs-provisioner
 
 echo "Installing CSI Driver for NFS"
@@ -37,7 +40,7 @@ helm upgrade --install csi-driver-nfs csi-driver-nfs/csi-driver-nfs \
   --set externalSnapshotter.enabled=true \
   --version $NFS_DRIVER_VERSION
 
-kubectl -n kube-system wait --for=condition=Ready pods -l app.kubernetes.io/instance=csi-driver-nfs
+kubectl -n kube-system wait --for=condition=Ready pods -l app.kubernetes.io/instance=csi-driver-nfs --timeout=60s
 
 # Deploy storageclasss and volumesnapshotclass
 
