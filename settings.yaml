@@ -3,7 +3,7 @@
 cluster_name: Kubernetes Cluster
 runtime:
   name: containerd # or crio
-  version: 1.6.22-1 # It will be ignored for crio
+  version: 1.7.8-1 # It will be ignored for crio
 # Uncomment to set environment variables for services such as crio and kubelet.
 # For example, configure the cluster to pull images via a proxy.
 # environment: |
@@ -37,9 +37,9 @@ software:
   box: bento/ubuntu-22.04
   calico: 3.26.1
   # To skip the dashboard installation, set its version to an empty value or comment it out:
-  dashboard: 2.7.0
-  kubernetes: 1.27.1-00
+  # dashboard: 2.7.0
+  kubernetes: 1.28.3-00
   os: xUbuntu_22.04
   helm: v3.10.2
-  ingress_nginx: 4.7.1
+  ingress_nginx: 4.8.3
   csi_driver_nfs: v4.5.0
