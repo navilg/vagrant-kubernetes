@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
           vb.customize ["modifyvm", :id, "--groups", ("/" + settings["cluster_name"])]
         end
         if settings["host_os"] == "windows"
-          vb.gui = true # Vagrant does not work in headless mode in Windows 10 and 11 
+          vb.gui = true # Vagrant does not work in headless mode in Windows 10 and 11 host
         end
     end
     master.vm.provision "shell",
@@ -83,7 +83,7 @@ Vagrant.configure("2") do |config|
             vb.customize ["modifyvm", :id, "--groups", ("/" + settings["cluster_name"])]
           end
           if settings["host_os"] == "windows"
-            vb.gui = true # Vagrant does not work in headless mode in Windows 10 and 11 
+            vb.gui = true # Vagrant does not work in headless mode in Windows 10 and 11 host
           end
       end
       node.vm.provision "shell",

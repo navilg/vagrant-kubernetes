@@ -2,7 +2,7 @@
 # cluster_name is used to group the nodes in a folder within VirtualBox:
 cluster_name: Kubernetes Cluster
 
-# Vagrant does not work in headless mode in Windows 10 and 11. To fix this, If host_os is windows, vagrant will start gui for each VMs.
+# Vagrant does not work in headless mode in Windows 10 and 11 host. To fix this, If host_os is set to windows, vagrant will start gui for each VMs.
 host_os: linux # or windows.
 runtime:
   name: containerd # or crio
