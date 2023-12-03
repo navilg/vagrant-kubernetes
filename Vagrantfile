@@ -47,9 +47,8 @@ Vagrant.configure("2") do |config|
         "DNS_SERVERS" => settings["network"]["dns_servers"].join(" "),
         "ENVIRONMENT" => settings["environment"],
         "KUBERNETES_VERSION" => settings["software"]["kubernetes"],
-        "OS" => settings["software"]["os"],
-        "RUNTIME" => settings["runtime"]["name"],
-        "RUNTIME_VERSION" => settings["runtime"]["version"],
+        "UBUNTU_VERSION" => settings["software"]["box"],
+        "RUNTIME" => settings["runtime"]["name"]
         "HELM_VERSION" => settings["software"]["helm"]
       },
       path: "scripts/common.sh"
@@ -86,9 +85,8 @@ Vagrant.configure("2") do |config|
           "DNS_SERVERS" => settings["network"]["dns_servers"].join(" "),
           "ENVIRONMENT" => settings["environment"],
           "KUBERNETES_VERSION" => settings["software"]["kubernetes"],
-          "OS" => settings["software"]["os"],
+          "UBUNTU_VERSION" => settings["software"]["box"],
           "RUNTIME" => settings["runtime"]["name"],
-          "RUNTIME_VERSION" => settings["runtime"]["version"],
           "HELM_VERSION" => settings["software"]["helm"]
         },
         path: "scripts/common.sh"

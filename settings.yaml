@@ -3,7 +3,7 @@
 cluster_name: Kubernetes Cluster
 runtime:
   name: containerd # or crio
-  version: 1.6.25-1 # It will be ignored for crio
+
 # Uncomment to set environment variables for services such as crio and kubelet.
 # For example, configure the cluster to pull images via a proxy.
 # environment: |
@@ -21,12 +21,12 @@ network:
   service_cidr: 172.17.1.0/18
 nodes:
   control:
-    cpu: 2
+    cpu: 1
     memory: 2048
   workers:
-    count: 2
-    cpu: 2
-    memory: 1536
+    count: 2      # Number of worker nodes
+    cpu: 1        # Number of vCPU per node
+    memory: 1536  # RAM per node in MiB
     
 # Mount additional shared folders from the host into each virtual machine.
 # Note that the project directory is automatically mounted at /vagrant.
@@ -34,12 +34,11 @@ shared_folders:
   - host_path: ./synced_volumes/common
     vm_path: /home/vagrant/common
 software:
-  box: bento/ubuntu-22.04
-  calico: 3.26.1
-  # To skip the dashboard installation, set its version to an empty value or comment it out:
+  box: bento/ubuntu-22.04 # DON'T change
+  calico: 3.26.1    # Calico CNI plugin for networking
+  # To install dashboard installation, uncomment below line and set its version:
   # dashboard: 2.7.0
-  kubernetes: 1.28.1-00
-  os: xUbuntu_22.04
+  kubernetes: 1.28 # Kubernetes version in format of major.minor
   helm: v3.10.2
   ingress_nginx: 4.8.3
   csi_driver_nfs: v4.5.0

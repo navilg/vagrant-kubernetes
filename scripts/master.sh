@@ -34,12 +34,6 @@ chmod +x $config_path/join.sh
 
 kubeadm token create --print-join-command > $config_path/join.sh
 
-# Install Calico Network Plugin
-
-# curl https://raw.githubusercontent.com/projectcalico/calico/v${CALICO_VERSION}/manifests/calico.yaml -O
-
-# kubectl apply -f calico.yaml
-
 helm repo add projectcalico https://docs.tigera.io/calico/charts
 helm install calico projectcalico/tigera-operator --version v${CALICO_VERSION} --namespace tigera-operator --create-namespace
 
