@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
         "ENVIRONMENT" => settings["environment"],
         "KUBERNETES_VERSION" => settings["software"]["kubernetes"],
         "UBUNTU_VERSION" => settings["software"]["box"],
-        "RUNTIME" => settings["runtime"]["name"]
+        "RUNTIME" => settings["runtime"]["name"],
         "HELM_VERSION" => settings["software"]["helm"]
       },
       path: "scripts/common.sh"
