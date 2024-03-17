@@ -1,7 +1,7 @@
 
 # Vagrantfile and Scripts to Automate Kubernetes Setup using Kubeadm
 
-This is fork of [vagrant-kubeadm-kubernetes](https://github.com/techiescamp/vagrant-kubeadm-kubernetes) with some independent improvements and additional features.
+This is fork of [vagrant-kubeadm-kubernetes](https://github.com/techiescamp/vagrant-kubeadm-kubernetes) with some independent improvements and additional features like support for containerd runtime, csi drivers, ingress controller, etc.
 
 ## Prerequisites
 
