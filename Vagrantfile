@@ -103,7 +103,9 @@ Vagrant.configure("2") do |config|
         node.vm.provision "shell", path: "scripts/dashboard.sh"
       end
       if i == NUM_WORKER_NODES
-        node.vm.provision "file", source: "./sample-app.yaml", destination: "sample-app.yaml"
+        node.vm.provision "file", source: "./sample-app-non-pvc.yaml", destination: "sample-app-non-pvc.yaml"
+        node.vm.provision "file", source: "./sample-app-ing.yaml", destination: "sample-app-ing.yaml"
+        node.vm.provision "file", source: "./sample-app-pvc.yaml", destination: "sample-app-pvc.yaml"
         node.vm.provision "shell", env: {
           "INGRESS_NGINX_VERSION" => settings["software"]["ingress_nginx"],
           "NFS_DRIVER_VERSION" => settings["software"]["csi_driver_nfs"],

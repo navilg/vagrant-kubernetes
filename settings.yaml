@@ -42,5 +42,9 @@ software:
   # dashboard: 2.7.0
   kubernetes: 1.28 # Kubernetes version in format of major.minor
   helm: v3.10.2
+
+  # To install ingress nginx and deploy sample application, set the version of ingress_nginx or else leave it empty
   ingress_nginx: 4.8.3
+
+  # To install CSI driver for NFS, set the version of csi_driver_nfs or else leave it empty
   csi_driver_nfs: v4.5.0
