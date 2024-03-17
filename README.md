@@ -29,7 +29,7 @@ https://discuss.hashicorp.com/t/vagrant-2-2-18-osx-11-6-cannot-create-private-ne
 ## For windows users
 
 Windows 10 and 11 fails to start VMs in headless mode. To fix this VMs (nodes) must be started in GUI mode.
-Just ingore the GUIs and leave it as it is.
+Just ingore the GUIs in virtualbox window and leave it as it is after spinning.
 
 Update `host_os: windows` in _settings.yaml_ file. This will start the VMs in GUI mode when cluster is brought up.
 
