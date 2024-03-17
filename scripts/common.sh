@@ -25,7 +25,6 @@ sudo swapoff -a
 # sudo apt-get update -y
 # Install CRI-O Runtime
 
-K8S_COMPONENT_VERSION="$(echo ${KUBERNETES_VERSION} | grep -oE '[0-9]+\.[0-9]+').0-00"
 OS="xUbuntu_$(echo ${UBUNTU_VERSION} | grep -oE '[0-9]+\.[0-9]+')"
 
 # Create the .conf file to load the modules at bootup
@@ -109,7 +108,7 @@ curl -fsSL https://pkgs.k8s.io/core:/stable:/v$KUBERNETES_VERSION/deb/Release.ke
 # echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v$KUBERNETES_VERSION/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update -y
-sudo apt-get install -y kubelet="$K8S_COMPONENT_VERSION" kubectl="$K8S_COMPONENT_VERSION" kubeadm="$K8S_COMPONENT_VERSION"
+sudo apt-get install -y kubelet kubectl kubeadm
 # sudo apt-get update -y
 sudo apt-get install -y jq
 
