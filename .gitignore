@@ -33,7 +33,7 @@ Temporary Items
 .apdisk
 
 # Node volumes/data
-synced_volumes/
+# synced_volumes/
 
 aws-credential
 

@@ -41,15 +41,17 @@ Vagrant.configure("2") do |config|
         if settings["cluster_name"] and settings["cluster_name"] != ""
           vb.customize ["modifyvm", :id, "--groups", ("/" + settings["cluster_name"])]
         end
+        if settings["host_os"] == "windows"
+          vb.gui = true # Vagrant does not work in headless mode in Windows 10 and 11 host
+        end
     end
     master.vm.provision "shell",
       env: {
         "DNS_SERVERS" => settings["network"]["dns_servers"].join(" "),
         "ENVIRONMENT" => settings["environment"],
         "KUBERNETES_VERSION" => settings["software"]["kubernetes"],
-        "OS" => settings["software"]["os"],
+        "UBUNTU_VERSION" => settings["software"]["box"],
         "RUNTIME" => settings["runtime"]["name"],
-        "RUNTIME_VERSION" => settings["runtime"]["version"],
         "HELM_VERSION" => settings["software"]["helm"]
       },
       path: "scripts/common.sh"
@@ -80,15 +82,17 @@ Vagrant.configure("2") do |config|
           if settings["cluster_name"] and settings["cluster_name"] != ""
             vb.customize ["modifyvm", :id, "--groups", ("/" + settings["cluster_name"])]
           end
+          if settings["host_os"] == "windows"
+            vb.gui = true # Vagrant does not work in headless mode in Windows 10 and 11 host
+          end
       end
       node.vm.provision "shell",
         env: {
           "DNS_SERVERS" => settings["network"]["dns_servers"].join(" "),
           "ENVIRONMENT" => settings["environment"],
           "KUBERNETES_VERSION" => settings["software"]["kubernetes"],
-          "OS" => settings["software"]["os"],
+          "UBUNTU_VERSION" => settings["software"]["box"],
           "RUNTIME" => settings["runtime"]["name"],
-          "RUNTIME_VERSION" => settings["runtime"]["version"],
           "HELM_VERSION" => settings["software"]["helm"]
         },
         path: "scripts/common.sh"

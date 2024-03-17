@@ -1,18 +1,15 @@
 
-# Vagrantfile and Scripts to Automate Kubernetes Setup using Kubeadm [Practice Environment for CKA/CKAD and CKS Exams]
+# Vagrantfile and Scripts to Automate Kubernetes Setup using Kubeadm
 
 This is fork of [vagrant-kubeadm-kubernetes](https://github.com/techiescamp/vagrant-kubeadm-kubernetes) with some independent improvements and additional features.
-
-## Documentation
-
-Current k8s version for CKA, CKAD, and CKS exam: 1.27
 
 ## Prerequisites
 
 1. Working Vagrant setup with VirtualBox
-2. 8 Gi+ RAM workstation as the Vms use 3 vCPUS and 4+ GB RAM
+2. Recommended: Host (Preferrably Linux desktop) with 8 Gi+ RAM and 8+ CPUs (By default, VMs use total 6 CPUs and 5Gi RAM for 3 nodes cluster)
+3. Minimum: Host with 4Gi+ RAM and 4 CPU can also be used if cluster is run with minimal requirement or (1 CPU and 1 GB RAM per node for 3 nodes cluster). Update _settings.yaml_ file to change cpu and memory for nodes.
 
-## For Linux Users
+## For linux users
 
 The latest version of Virtualbox for Linux can cause issues.
 
@@ -28,6 +25,12 @@ echo "* 0.0.0.0/0 ::/0" | sudo tee -a /etc/vbox/networks.conf
 
 So that the host only networks can be in any range, not just 192.168.56.0/21 as described here:
 https://discuss.hashicorp.com/t/vagrant-2-2-18-osx-11-6-cannot-create-private-network/30984/23
+
+## For windows users
+
+Windows 10 and 11 fails to start VMs in headless mode. To fix this VMs (nodes) must be started in GUI mode.
+
+Update `host_os: windows` in _settings.yaml_ file. This will start the VMs in GUI mode when cluster is brought up.
 
 ## Bring Up the Cluster
 
@@ -53,9 +56,10 @@ cp configs/config ~/.kube/
 
 ## Install Kubernetes Dashboard
 
-The dashboard is automatically installed by default, but it can be skipped by commenting out the dashboard version in _settings.yaml_ before running `vagrant up`.
+The dashboard is not installed by default, but it can be installed by uncommenting the dashboard version in _settings.yaml_ before running `vagrant up`.
 
-If you skip the dashboard installation, you can deploy it later by enabling it in _settings.yaml_ and running the following:
+You can deploy it later by enabling it in _settings.yaml_ and running the following:
+
 ```shell
 vagrant ssh -c "/vagrant/scripts/dashboard.sh" master
 ```
