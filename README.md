@@ -6,7 +6,7 @@ This is fork of [vagrant-kubeadm-kubernetes](https://github.com/techiescamp/vagr
 ## Prerequisites
 
 1. Working Vagrant setup with VirtualBox
-2. Recommended: Host (Preferrably Linux desktop) with 8 Gi+ RAM and 8+ CPUs (By default, VMs use total 6 CPUs and 5Gi RAM for 3 nodes cluster)
+2. Recommended: Host (Preferrably Linux desktop) with 8 Gi+ RAM and 8+ CPUs (By default, This use total 6 CPUs and 5Gi RAM for 3 nodes cluster which can be modified in settings.yaml)
 3. Minimum: Host with 4Gi+ RAM and 4 CPU can also be used if cluster is run with minimal requirement or (1 CPU and 1 GB RAM per node for 3 nodes cluster). Update _settings.yaml_ file to change cpu and memory for nodes.
 
 ## For linux users
@@ -29,6 +29,7 @@ https://discuss.hashicorp.com/t/vagrant-2-2-18-osx-11-6-cannot-create-private-ne
 ## For windows users
 
 Windows 10 and 11 fails to start VMs in headless mode. To fix this VMs (nodes) must be started in GUI mode.
+Just ingore the GUIs and leave it as it is.
 
 Update `host_os: windows` in _settings.yaml_ file. This will start the VMs in GUI mode when cluster is brought up.
 
@@ -87,7 +88,7 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
 vagrant halt
 ```
 
-## To restart the cluster,
+## To start the cluster,
 
 ```shell
 vagrant up
