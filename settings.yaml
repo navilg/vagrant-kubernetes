@@ -4,8 +4,7 @@ cluster_name: Kubernetes Cluster
 
 # Vagrant does not work in headless mode in Windows 10 and 11 host. To fix this, If host_os is set to windows, vagrant will start gui for each VMs.
 host_os: linux # or windows.
-runtime:
-  name: containerd # or crio
+runtime: containerd # or crio
 
 # Uncomment to set environment variables for services such as crio and kubelet.
 # For example, configure the cluster to pull images via a proxy.
@@ -34,8 +33,8 @@ nodes:
 # Mount additional shared folders from the host into each virtual machine.
 # Note that the project directory is automatically mounted at /vagrant.
 shared_folders:
-  - host_path: ./synced_volumes/common
-    vm_path: /home/vagrant/common
+  # - host_path: ./synced_volumes/common
+  #   vm_path: /home/vagrant/common
 software:
   box: bento/ubuntu-22.04 # DON'T change
   calico: 3.26.1    # Calico CNI plugin for networking
