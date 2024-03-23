@@ -17,8 +17,10 @@ NODENAME=$(hostname -s)
 kubectl label node $(hostname -s) node-role.kubernetes.io/worker=worker --overwrite
 EOF
 
-# Setup NFS client
-sudo apt install nfs-common -y
-mkdir /home/vagrant/k8s_pvs/
-echo 'master-node:/var/nfs/k8s_pvs /home/vagrant/k8s_pvs/ nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0' | sudo tee -a /etc/fstab
-sudo mount /home/vagrant/k8s_pvs/
+if [ -n "$NFS_DRIVER_VERSION" ]; then
+    # Setup NFS client
+    sudo apt install nfs-common -y
+    mkdir /home/vagrant/k8s_pvs/
+    echo 'master-node:/var/nfs/k8s_pvs /home/vagrant/k8s_pvs/ nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0' | sudo tee -a /etc/fstab
+    sudo mount /home/vagrant/k8s_pvs/
+fi

@@ -98,7 +98,9 @@ Vagrant.configure("2") do |config|
           "HELM_VERSION" => settings["software"]["helm"]
         },
         path: "scripts/common.sh"
-      node.vm.provision "shell", path: "scripts/node.sh"
+      node.vm.provision "shell", env: {
+        "NFS_DRIVER_VERSION" => settings["software"]["csi_driver_nfs"]
+      }, path: "scripts/node.sh"
 
       # Only install the dashboard after provisioning the last worker (and when enabled).
       if i == NUM_WORKER_NODES and settings["software"]["dashboard"] and settings["software"]["dashboard"] != ""
