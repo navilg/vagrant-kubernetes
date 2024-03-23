@@ -9,42 +9,18 @@ if [ -n "$INGRESS_NGINX_VERSION" ]; then
 
   echo "Installing Nginx Ingress controller"
   cat <<EOF > custom-ingress-value.yaml
-  controller:
-    service:
-      nodePorts:
-        http: 30080
-        https: 30443  # Install Ingress Nginx
-
-  echo "Installing Nginx Ingress controller"
-  cat <<EOF > custom-ingress-value.yaml
-  controller:
-    service:
-      nodePorts:
-        http: 30080
-        https: 30443
-      type: NodePort
-    tolerations:
-    - key: node-role.kubernetes.io/control-plane
-      effect: NoSchedule
-    nodeSelector:
-      kubernetes.io/os: linux
-      kubernetes.io/hostname: master-node
-EOF
-
-  echo "Install Ingress Nginx"
-  helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-  helm repo update
-  helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace -f custom-ingress-value.yaml --version $INGRESS_NGINX_VERSION
-  rm -f custom-ingress-value.yaml
-
-  kubectl -n ingress
-      type: NodePort
-    tolerations:
-    - key: node-role.kubernetes.io/control-plane
-      effect: NoSchedule
-    nodeSelector:
-      kubernetes.io/os: linux
-      kubernetes.io/hostname: master-node
+controller:
+  service:
+    nodePorts:
+      http: 30080
+      https: 30443
+    type: NodePort
+  tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule
+  nodeSelector:
+    kubernetes.io/os: linux
+    kubernetes.io/hostname: master-node
 EOF
 
   echo "Install Ingress Nginx"
@@ -73,35 +49,35 @@ if [ -n "$NFS_DRIVER_VERSION" ]; then
 
   echo "Deploying storage class"
   cat <<EOF | kubectl apply -f -
-  apiVersion: storage.k8s.io/v1
-  kind: StorageClass
-  metadata:
-    name: nfs-csi
-    annotations:
-      storageclass.kubernetes.io/is-default-class: "true"
-  provisioner: nfs.csi.k8s.io
-  parameters:
-    server: master-node
-    share: /var/nfs/k8s_pvs
-  reclaimPolicy: Delete
-  volumeBindingMode: WaitForFirstConsumer
-  mountOptions:
-    - nfsvers=4.1
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: master-node
+  share: /var/nfs/k8s_pvs
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+mountOptions:
+  - nfsvers=4.1
 EOF
 
   echo "Deploying volume snapshot class"
   cat <<EOF | kubectl apply -f -
-  apiVersion: snapshot.storage.k8s.io/v1
-  kind: VolumeSnapshotClass
-  metadata:
-    name: nfs-csi
-    # labels:
-    #   velero.io/csi-volumesnapshot-class: "true"
-  driver: nfs.csi.k8s.io
-  parameters:
-    server: master-node
-    share: /var/nfs/k8s_pvs
-  deletionPolicy: Delete
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: nfs-csi
+  # labels:
+  #   velero.io/csi-volumesnapshot-class: "true"
+driver: nfs.csi.k8s.io
+parameters:
+  server: master-node
+  share: /var/nfs/k8s_pvs
+deletionPolicy: Delete
 EOF
 
 fi
