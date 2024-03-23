@@ -48,8 +48,6 @@ spec:
         volumeMounts:
         - name: index-html
           mountPath: /usr/share/nginx/html
-        - mountPath: /var/log/nginx
-          name: nginx-logs
       volumes:
       - name: index-html
         configMap:
