@@ -97,10 +97,10 @@ if [ -n "$INGRESS_NGINX_VERSION" ]; then
   echo "You can access sample application on your browser at 'http://$MASTER_IP/sampleapp'"
 else
   sleep 5
-  sampleappnode=$(kubectl -n sample-app get po -l app=nginx -o jsonpath='{.spec.nodeName}')
+  sampleappnode=$(kubectl -n sample-app get po -l app=nginx -o jsonpath='{.items[0].spec.nodeName}')
   sampleappnodeip=$(kubectl get nodes $sampleappnode -o jsonpath='{range .status.addresses[?(@.type == "InternalIP")]}{.address}')
   echo "Spinup completed."
-  echo "You can access sample application on your browser at 'http://$sampleappnodeip:32080/sampleapp'"
+  echo "You can access sample application on your browser at 'http://$sampleappnodeip:32080'"
 fi
 
 echo
