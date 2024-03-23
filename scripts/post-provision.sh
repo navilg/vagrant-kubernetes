@@ -87,6 +87,7 @@ if [ -n "$NFS_DRIVER_VERSION" ]; then
 else
   kubectl apply -f /home/vagrant/sample-app-non-pvc.yaml
 fi
+kubectl -n sample-app wait --for=condition=Ready pods -l app=nginx --timeout=120s
 
 echo
 
