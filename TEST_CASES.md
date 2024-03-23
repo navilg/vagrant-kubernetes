@@ -1,6 +1,6 @@
 - [ ] Deploy kubernetes in Linux Desktop
     - [ ] With Cri-O
-    - [ ] With containerd
+    - [x] With containerd
     - [ ] Containerd + without ingress nginx
     - [ ] Containerd + Without csi driver for nfs
 
