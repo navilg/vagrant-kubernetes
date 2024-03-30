@@ -40,7 +40,7 @@ software:
   calico: 3.26.1    # Calico CNI plugin for networking. https://github.com/projectcalico/calico/releases
   # To install dashboard installation, uncomment below line and set its version:
   # dashboard: 2.7.0
-  kubernetes: 1.29 # Kubernetes version in format of major.minor
+  kubernetes: 1.29 # Kubernetes version in format of major.minor (>= 1.28)
   helm: v3.14.2
 
   # To install ingress nginx controller, set the version of ingress_nginx or else keep it empty
