@@ -2,9 +2,10 @@
 # cluster_name is used to group the nodes in a folder within VirtualBox:
 cluster_name: Kubernetes Cluster
 
-# Vagrant does not work in headless mode in Windows 10 and 11 host. To fix this, If host_os is set to windows, vagrant will start gui for each VMs.
-host_os: linux # or windows.
-runtime: containerd # or crio
+# VMs does not start in headless mode with some older version of VirtualBox in Windows 10 and 11 host. 
+# If VMs fails to start in headless mode, set gui as true.
+gui: false # true or false. 
+runtime: containerd # containerd or crio
 
 # Uncomment to set environment variables for services such as crio and kubelet.
 # For example, configure the cluster to pull images via a proxy.
@@ -40,11 +41,11 @@ software:
   calico: 3.26.1    # Calico CNI plugin for networking. https://github.com/projectcalico/calico/releases
   # To install dashboard installation, uncomment below line and set its version:
   # dashboard: 2.7.0
-  kubernetes: 1.29 # Kubernetes version in format of major.minor (>= 1.28)
+  kubernetes: 1.29 # >= 1.28 Kubernetes version in format of major.minor
   helm: v3.14.2
 
-  # To install ingress nginx controller, set the version of ingress_nginx or else keep it empty
+  # Set the version of ingress_nginx to install or else comment it to skip installation
   ingress_nginx: 4.10.0  # Helm chart version. https://github.com/kubernetes/ingress-nginx
 
-  # To install CSI driver for NFS, set the version of csi_driver_nfs or else keep it empty
+  # Set the version of csi_driver_nfs to install CSI driver for NFS or else comment it to skip installation
   csi_driver_nfs: v4.6.0 # https://github.com/kubernetes-csi/csi-driver-nfs

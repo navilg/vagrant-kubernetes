@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
         if settings["cluster_name"] and settings["cluster_name"] != ""
           vb.customize ["modifyvm", :id, "--groups", ("/" + settings["cluster_name"])]
         end
-        if settings["host_os"] == "windows"
+        if settings["gui"] == true
           vb.gui = true # Vagrant does not work in headless mode in Windows 10 and 11 host
         end
     end
@@ -84,7 +84,7 @@ Vagrant.configure("2") do |config|
           if settings["cluster_name"] and settings["cluster_name"] != ""
             vb.customize ["modifyvm", :id, "--groups", ("/" + settings["cluster_name"])]
           end
-          if settings["host_os"] == "windows"
+          if settings["gui"] == true
             vb.gui = true # Vagrant does not work in headless mode in Windows 10 and 11 host
           end
       end
