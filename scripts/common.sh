@@ -22,10 +22,10 @@ sudo swapoff -a
 
 # keeps the swap off during reboot
 (crontab -l 2>/dev/null; echo "@reboot /sbin/swapoff -a") | crontab - || true
-# sudo apt-get update -y
+# sudo apt update -y
 # Install CRI-O Runtime
 
-VERSION="$(echo ${KUBERNETES_VERSION} | grep -oE '[0-9]+\.[0-9]+')"
+OS="xUbuntu_$(echo ${UBUNTU_VERSION} | grep -oE '[0-9]+\.[0-9]+')"
 
 # Create the .conf file to load the modules at bootup
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
@@ -47,18 +47,14 @@ sudo sysctl --system
 
 if [ "$RUNTIME" == "crio" ]; then
 
-	cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
-deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /
-EOF
-	cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
-deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /
-EOF
+	PROJECT_PATH=stable:/v$KUBERNETES_VERSION
 
-	curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
-	curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+	curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/$PROJECT_PATH/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/cri-o-apt-keyring.gpg
 
-	sudo apt-get update
-	sudo apt-get install cri-o cri-o-runc -y
+	echo "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/$PROJECT_PATH/deb/ /" | tee /etc/apt/sources.list.d/cri-o.list
+
+	sudo apt update
+	sudo apt install cri-o -y
 
 	cat >> /etc/default/crio << EOF
 ${ENVIRONMENT}
@@ -81,8 +77,8 @@ if [ "$RUNTIME" == "containerd" ]; then
 	"$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
 	sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-	sudo apt-get update
-	sudo apt-get install containerd.io="$RUNTIME_VERSION"
+	sudo apt update
+	sudo apt install containerd.io
 
 	curl -L https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz -o /tmp/cni-plugins-linux-amd64-v1.3.0.tgz
 	mkdir -p /opt/cni/bin
@@ -100,15 +96,15 @@ if [ "$RUNTIME" == "containerd" ]; then
 	#########################################
 fi
 
-# sudo apt-get update
-sudo apt-get install -y apt-transport-https ca-certificates curl
-curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+# sudo apt update
+sudo apt install -y apt-transport-https ca-certificates curl
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v$KUBERNETES_VERSION/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
-echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-sudo apt-get update -y
-sudo apt-get install -y kubelet="$KUBERNETES_VERSION" kubectl="$KUBERNETES_VERSION" kubeadm="$KUBERNETES_VERSION"
-# sudo apt-get update -y
-sudo apt-get install -y jq
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v$KUBERNETES_VERSION/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt update -y
+sudo apt install -y kubelet kubectl kubeadm
+# sudo apt update -y
+sudo apt install -y jq
 
 # Install helm
 echo "Installing helm"
