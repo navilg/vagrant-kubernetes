@@ -44,7 +44,7 @@ EOF
 
 helm repo add projectcalico https://docs.tigera.io/calico/charts
 helm install calico projectcalico/tigera-operator --version v${CALICO_VERSION} --namespace tigera-operator --create-namespace
-kubectl -n calico-system wait --for=condition=Ready pods -l k8s-app=calico-kube-controllers --timeout=120s
+kubectl -n calico-system wait --for=condition=Ready pods -l app.kubernetes.io/name=calico-kube-controllers --timeout=120s
 
 # Install Metrics Server
 
