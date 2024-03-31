@@ -34,15 +34,16 @@ chmod +x $config_path/join.sh
 
 kubeadm token create --print-join-command > $config_path/join.sh
 
-helm repo add projectcalico https://docs.tigera.io/calico/charts
-helm install calico projectcalico/tigera-operator --version v${CALICO_VERSION} --namespace tigera-operator --create-namespace
-
 sudo -i -u vagrant bash << EOF
 whoami
 mkdir -p /home/vagrant/.kube
 sudo cp -i $config_path/config /home/vagrant/.kube/
 sudo chown 1000:1000 /home/vagrant/.kube/config
+sudo chmod 700 /home/vagrant/.kube/config
 EOF
+
+helm repo add projectcalico https://docs.tigera.io/calico/charts
+helm install calico projectcalico/tigera-operator --version v${CALICO_VERSION} --namespace tigera-operator --create-namespace
 
 # Install Metrics Server
 
