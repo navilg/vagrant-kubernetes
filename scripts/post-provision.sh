@@ -4,6 +4,10 @@
 
 export KUBECONFIG=/vagrant/configs/config
 
+# Wait for all nodes to be ready
+echo "Wait for all nodes to be ready"
+kubectl wait --for=condition=Ready nodes --all --timeout=600s
+
 if [ -n "$INGRESS_NGINX_VERSION" ]; then
   # Install Ingress Nginx
 
