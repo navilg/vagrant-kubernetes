@@ -101,3 +101,6 @@ vagrant up
 vagrant destroy -f
 ```
 
+## Bootstrapping Flowchart
+
+![Bootstrapping Flowchart](img/vagrant-kubernetes.png)
