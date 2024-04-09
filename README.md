@@ -6,8 +6,8 @@ This is fork of [vagrant-kubeadm-kubernetes](https://github.com/techiescamp/vagr
 ## Prerequisites
 
 1. Working Vagrant setup with VirtualBox
-2. Recommended: Host (Preferrably Linux desktop) with 8 Gi+ RAM and 8+ CPUs (By default, This use total 6 CPUs and 5Gi RAM for 3 nodes cluster which can be modified in settings.yaml)
-3. Minimum: Host with 4Gi+ RAM and 4 CPU can also be used if cluster is run with minimal requirement or (1 CPU and 1 GB RAM per node for 3 nodes cluster). Update _settings.yaml_ file to change cpu and memory for nodes.
+2. Recommended: Host (Preferrably Linux desktop) with 6 Gi+ RAM and 6+ CPUs (By default, This use total 4 CPUs and 3.5Gi RAM for 2 nodes cluster)
+3. Minimum: Host with 4Gi+ RAM and 2 CPU can also be used if cluster is run with minimal requirement or (1 CPU and 1 GB RAM per node for 3 nodes cluster). Update _settings.yaml_ file to change cpu and memory for nodes.
 
 ## For linux users
 
