@@ -13,7 +13,10 @@ This is fork of [vagrant-kubeadm-kubernetes](https://github.com/techiescamp/vagr
 The latest version of Virtualbox for Linux can cause issues.
 
 Create/edit the /etc/vbox/networks.conf file and add the following to avoid any network related issues.
-<pre>* 0.0.0.0/0 ::/0</pre>
+
+```vim
+* 0.0.0.0/0 ::/0
+```
 
 or run below commands
 
@@ -23,7 +26,7 @@ echo "* 0.0.0.0/0 ::/0" | sudo tee -a /etc/vbox/networks.conf
 ```
 
 So that the host only networks can be in any range, not just 192.168.56.0/21 as described here:
-https://discuss.hashicorp.com/t/vagrant-2-2-18-osx-11-6-cannot-create-private-network/30984/23
+<https://discuss.hashicorp.com/t/vagrant-2-2-18-osx-11-6-cannot-create-private-network/30984/23>
 
 ## For windows users
 
@@ -43,6 +46,7 @@ git clone https://github.com/navilg/vagrant-kubernetes.git
 cd vagrant-kubernetes
 vagrant up
 ```
+
 ## Set Kubeconfig file variable
 
 ```shell
@@ -69,33 +73,36 @@ vagrant ssh -c "/vagrant/scripts/dashboard.sh" master
 ## Kubernetes Dashboard Access
 
 To get the login token, copy it from _config/token_ or run the following command:
+
 ```shell
 kubectl -n kubernetes-dashboard get secret/admin-user -o go-template="{{.data.token | base64decode}}"
 ```
 
 Proxy the dashboard:
+
 ```shell
 kubectl proxy
 ```
 
 Open the site in your browser:
+
 ```shell
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=kubernetes-dashboard
 ```
 
-## To shutdown the cluster,
+## To shutdown the cluster
 
 ```shell
 vagrant halt
 ```
 
-## To start the cluster,
+## To start the cluster
 
 ```shell
 vagrant up
 ```
 
-## To destroy the cluster,
+## To destroy the cluster
 
 ```shell
 vagrant destroy -f
