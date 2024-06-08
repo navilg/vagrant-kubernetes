@@ -64,7 +64,7 @@ parameters:
   server: master-node
   share: /var/nfs/k8s_pvs
 reclaimPolicy: Delete
-volumeBindingMode: Immediate
+volumeBindingMode: WaitForFirstConsumer
 mountOptions:
   - nfsvers=4.1
 EOF
