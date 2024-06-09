@@ -75,8 +75,8 @@ if [ -n "$INGRESS_NGINX_VERSION" ]; then
     listen 80; 
 
     location / {
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header Host \$host;
+      proxy_set_header X-Real-IP \$remote_addr;
       proxy_pass http://localhost:30080;
     }
   }
